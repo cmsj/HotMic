@@ -14,9 +14,17 @@
     // FIXME: Figure out how to get THMPlayThru's lastDecibels ivar here
     [super drawBarInside:rect flipped:flipped];
     THMSingleton *singleton = [THMSingleton sharedInstance];
+    Float32 power = singleton.lastDecibels;
 
-    [[NSColor controlAccentColor] set];
-    NSRect dbRect = NSMakeRect(rect.origin.x + 2, rect.origin.y + 2, (rect.size.width * (singleton.lastDecibels / 100)) - 4, rect.size.height - 4);
+    if (power == 1.0) {
+        [[NSColor redColor] set];
+    } else if (power >= 0.8) {
+        [[NSColor yellowColor] set];
+    } else {
+        [[NSColor controlAccentColor] set];
+    }
+
+    NSRect dbRect = NSMakeRect(rect.origin.x + 2, rect.origin.y + 2, (rect.size.width * power) - 4, rect.size.height - 4);
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:dbRect xRadius:0 yRadius:0];
     [path fill];
 }

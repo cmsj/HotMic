@@ -16,6 +16,7 @@
 - (id)initWithInputDevice:(THMAudioDevice *)input andOutputDevice:(THMAudioDevice *)output {
     self = [super init];
     if (self) {
+        isUIVisible = NO;
         inputDevice = input;
         outputDevice = output;
 
@@ -59,6 +60,17 @@
     checkErr(err);
     
     [self computeThruOffset];
+
+    __weak THMPlayThru *weakself = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidAppear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
+        THMPlayThru *playThru = weakself;
+        playThru->isUIVisible = YES;
+    }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidDisappear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
+        THMPlayThru *playThru = weakself;
+        playThru->isUIVisible = NO;
+        playThru->lastDecibels = 0.0;
+    }];
 }
 
 - (BOOL)start {
@@ -468,28 +480,20 @@ OSStatus InputProc(void *inRefCon,
                           This->mInputBuffer);// Audio Buffer List to hold data
     checkErr(err);
 
-    if(!err) {
-        // FIXME: Figure out how to skip this calculation if the UI isn't visible
-
-#define DBOFFSET 0.0 // The output values fall between 0.0 and about 75
-#define LOWPASSFILTERTIMESLICE .001
-        SInt16 *samples = (SInt16*)(This->mInputBuffer->mBuffers[0].mData);
-        //Float32 decibels = DBOFFSET;
-        Float32 currentFilteredValueOfSampleAmplitude, previousFilteredValueOfSampleAmplitude = 1.0;
-        Float32 peakValue = DBOFFSET;
-        for (int i = 0; i < inNumberFrames ; i++) {
+    if(!err && This->isUIVisible) {
+        Float32 *samples = (Float32*)(This->mInputBuffer->mBuffers[0].mData);
+        Float32 peakValue = 0.0;
+        for (int i = 0; i < inNumberFrames; i++) {
             Float32 absoluteValueOfSampleAmplitude = abs(samples[i]);
-            currentFilteredValueOfSampleAmplitude = LOWPASSFILTERTIMESLICE * absoluteValueOfSampleAmplitude + (1.0 - LOWPASSFILTERTIMESLICE) * previousFilteredValueOfSampleAmplitude;
-            previousFilteredValueOfSampleAmplitude = currentFilteredValueOfSampleAmplitude;
-            Float32 amplitudeToConvertToDB = currentFilteredValueOfSampleAmplitude;
-            Float32 sampleDB = 20.0*log10(amplitudeToConvertToDB) + DBOFFSET;
-            if((sampleDB == sampleDB) && (sampleDB != -DBL_MAX)) {
-                if(sampleDB > peakValue) peakValue = sampleDB;
-                This->lastDecibels = peakValue;
+            if (absoluteValueOfSampleAmplitude > peakValue) {
+                peakValue = absoluteValueOfSampleAmplitude;
             }
         }
-        //printf("decibel: %f\n", This->lastDecibels);
+        //printf("decibel: %f\n", peakValue);
+        This->lastDecibels = peakValue;
+    }
 
+    if (!err) {
         err = This->mBuffer->Store(This->mInputBuffer, Float64(inNumberFrames), SInt64(inTimeStamp->mSampleTime));
     }
 

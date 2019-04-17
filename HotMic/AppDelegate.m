@@ -60,4 +60,5 @@
         NSLog(@"Settings failed to save");
     }
 }
+
 @end

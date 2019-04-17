@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     Float64 mFirstOutputTime;
     Float64 mInToOutSampleOffset;
 
+    BOOL isUIVisible;
     Float32 lastDecibels;
 }
 
@@ -68,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)SetupBuffers;
 
 - (void)computeThruOffset;
+
 @end
 
 NS_ASSUME_NONNULL_END

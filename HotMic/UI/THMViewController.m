@@ -23,23 +23,27 @@
 - (void)viewDidAppear {
     __weak THMViewController *weakself = self;
     self.dbTimer = [NSTimer scheduledTimerWithTimeInterval:1/30 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        Float32 newDecibels = self.singleton.lastDecibels;
+        Float32 newAmplitude = self.singleton.lastDecibels;
         //NSLog(@"%0.2f -> %0.2f", weakself.inputSliderCell.decibels, newDecibels);
-        if (newDecibels != weakself.inputSliderCell.decibels) {
-            if (newDecibels < weakself.inputSliderCell.decibels - 1.0) {
-                weakself.inputSliderCell.decibels -= 0.1;
+        if (newAmplitude != weakself.inputSliderCell.decibels) {
+            if (newAmplitude < weakself.inputSliderCell.decibels - 0.1) {
+                weakself.inputSliderCell.decibels -= 0.01;
                 //NSLog(@"decay");
             } else {
-                weakself.inputSliderCell.decibels = newDecibels;
+                weakself.inputSliderCell.decibels = newAmplitude;
             }
             weakself.inputSlider.needsDisplay = YES;
         }
     }];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:@"THMUIDidAppear" object:nil];
 }
 
 - (void)viewDidDisappear {
     [self.dbTimer invalidate];
     self.dbTimer = nil;
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:@"THMUIDidDisappear" object:nil];
 }
 
 #pragma mark - NSNotification callbacks
