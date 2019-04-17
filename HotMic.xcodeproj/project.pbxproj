@@ -8,23 +8,65 @@
 
 /* Begin PBXBuildFile section */
 		4FE37C3522677A6500286B56 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C3422677A6500286B56 /* AppDelegate.m */; };
-		4FE37C3822677A6500286B56 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C3722677A6500286B56 /* ViewController.m */; };
+		4FE37C3822677A6500286B56 /* THMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C3722677A6500286B56 /* THMViewController.m */; };
 		4FE37C3A22677A6600286B56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FE37C3922677A6600286B56 /* Assets.xcassets */; };
 		4FE37C3D22677A6600286B56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FE37C3B22677A6600286B56 /* Main.storyboard */; };
 		4FE37C4022677A6600286B56 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C3F22677A6600286B56 /* main.m */; };
+		4FE37C4D22677C1C00286B56 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE37C4C22677C1C00286B56 /* CoreAudio.framework */; };
+		4FE37C4F22677C2400286B56 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE37C4E22677C2400286B56 /* AudioToolbox.framework */; };
+		4FE37C5122677C2A00286B56 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE37C5022677C2A00286B56 /* AudioUnit.framework */; };
+		4FE37C6C22677CC500286B56 /* CARingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C5922677CC500286B56 /* CARingBuffer.cpp */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
+		4FE37C6D22677CC500286B56 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C5A22677CC500286B56 /* CAStreamBasicDescription.cpp */; };
+		4FE37C6E22677CC500286B56 /* THMAudioDeviceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C5F22677CC500286B56 /* THMAudioDeviceSource.m */; };
+		4FE37C6F22677CC500286B56 /* THMAudioDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6022677CC500286B56 /* THMAudioDevice.m */; };
+		4FE37C7022677CC500286B56 /* THMAudioDeviceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6122677CC500286B56 /* THMAudioDeviceList.m */; };
+		4FE37C7122677CC500286B56 /* THMSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6622677CC500286B56 /* THMSingleton.m */; };
+		4FE37C7222677CC500286B56 /* THMPlayThruController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6822677CC500286B56 /* THMPlayThruController.m */; };
+		4FE37C7322677CC500286B56 /* THMPlayThru.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6B22677CC500286B56 /* THMPlayThru.m */; };
+		4FE37C7D22677D1400286B56 /* THMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C7522677D1400286B56 /* THMMenuItem.m */; };
+		4FE37C7E22677D1400286B56 /* THMSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C7622677D1400286B56 /* THMSliderCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4FE37C3022677A6500286B56 /* HotMic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotMic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FE37C3322677A6500286B56 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4FE37C3422677A6500286B56 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4FE37C3622677A6500286B56 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4FE37C3722677A6500286B56 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4FE37C3422677A6500286B56 /* AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.m; sourceTree = "<group>"; };
+		4FE37C3622677A6500286B56 /* THMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THMViewController.h; sourceTree = "<group>"; };
+		4FE37C3722677A6500286B56 /* THMViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = THMViewController.m; sourceTree = "<group>"; };
 		4FE37C3922677A6600286B56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4FE37C3C22677A6600286B56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4FE37C3E22677A6600286B56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FE37C3F22677A6600286B56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4FE37C4122677A6600286B56 /* HotMic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotMic.entitlements; sourceTree = "<group>"; };
+		4FE37C4C22677C1C00286B56 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		4FE37C4E22677C2400286B56 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		4FE37C5022677C2A00286B56 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		4FE37C5322677CC500286B56 /* CAAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAAtomic.h; sourceTree = "<group>"; };
+		4FE37C5422677CC500286B56 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
+		4FE37C5522677CC500286B56 /* CABitOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CABitOperations.h; sourceTree = "<group>"; };
+		4FE37C5622677CC500286B56 /* CARingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CARingBuffer.h; sourceTree = "<group>"; };
+		4FE37C5722677CC500286B56 /* CAAutoDisposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAAutoDisposer.h; sourceTree = "<group>"; };
+		4FE37C5822677CC500286B56 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
+		4FE37C5922677CC500286B56 /* CARingBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CARingBuffer.cpp; sourceTree = "<group>"; };
+		4FE37C5A22677CC500286B56 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		4FE37C5B22677CC500286B56 /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
+		4FE37C5D22677CC500286B56 /* THMAudioDeviceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMAudioDeviceList.h; sourceTree = "<group>"; };
+		4FE37C5E22677CC500286B56 /* THMAudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMAudioDevice.h; sourceTree = "<group>"; };
+		4FE37C5F22677CC500286B56 /* THMAudioDeviceSource.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMAudioDeviceSource.m; sourceTree = "<group>"; };
+		4FE37C6022677CC500286B56 /* THMAudioDevice.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMAudioDevice.m; sourceTree = "<group>"; };
+		4FE37C6122677CC500286B56 /* THMAudioDeviceList.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMAudioDeviceList.m; sourceTree = "<group>"; };
+		4FE37C6222677CC500286B56 /* THMAudioDeviceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMAudioDeviceSource.h; sourceTree = "<group>"; };
+		4FE37C6422677CC500286B56 /* THMSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMSingleton.h; sourceTree = "<group>"; };
+		4FE37C6522677CC500286B56 /* THMLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMLogging.h; sourceTree = "<group>"; };
+		4FE37C6622677CC500286B56 /* THMSingleton.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMSingleton.m; sourceTree = "<group>"; };
+		4FE37C6822677CC500286B56 /* THMPlayThruController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMPlayThruController.m; sourceTree = "<group>"; };
+		4FE37C6922677CC500286B56 /* THMPlayThru.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMPlayThru.h; sourceTree = "<group>"; };
+		4FE37C6A22677CC500286B56 /* THMPlayThruController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMPlayThruController.h; sourceTree = "<group>"; };
+		4FE37C6B22677CC500286B56 /* THMPlayThru.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMPlayThru.m; sourceTree = "<group>"; };
+		4FE37C7522677D1400286B56 /* THMMenuItem.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMMenuItem.m; sourceTree = "<group>"; };
+		4FE37C7622677D1400286B56 /* THMSliderCell.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMSliderCell.m; sourceTree = "<group>"; };
+		4FE37C7A22677D1400286B56 /* THMMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMMenuItem.h; sourceTree = "<group>"; };
+		4FE37C7C22677D1400286B56 /* THMSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMSliderCell.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +74,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FE37C4D22677C1C00286B56 /* CoreAudio.framework in Frameworks */,
+				4FE37C4F22677C2400286B56 /* AudioToolbox.framework in Frameworks */,
+				4FE37C5122677C2A00286B56 /* AudioUnit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +88,7 @@
 			children = (
 				4FE37C3222677A6500286B56 /* HotMic */,
 				4FE37C3122677A6500286B56 /* Products */,
+				4FE37C4B22677C1C00286B56 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,17 +103,93 @@
 		4FE37C3222677A6500286B56 /* HotMic */ = {
 			isa = PBXGroup;
 			children = (
+				4FE37C3922677A6600286B56 /* Assets.xcassets */,
+				4FE37C3E22677A6600286B56 /* Info.plist */,
+				4FE37C4122677A6600286B56 /* HotMic.entitlements */,
 				4FE37C3322677A6500286B56 /* AppDelegate.h */,
 				4FE37C3422677A6500286B56 /* AppDelegate.m */,
-				4FE37C3622677A6500286B56 /* ViewController.h */,
-				4FE37C3722677A6500286B56 /* ViewController.m */,
-				4FE37C3922677A6600286B56 /* Assets.xcassets */,
-				4FE37C3B22677A6600286B56 /* Main.storyboard */,
-				4FE37C3E22677A6600286B56 /* Info.plist */,
 				4FE37C3F22677A6600286B56 /* main.m */,
-				4FE37C4122677A6600286B56 /* HotMic.entitlements */,
+				4FE37C5C22677CC500286B56 /* Audio Devices */,
+				4FE37C5222677CC500286B56 /* CAUtility */,
+				4FE37C6722677CC500286B56 /* Model */,
+				4FE37C6322677CC500286B56 /* Utility */,
+				4FE37C7422677D1400286B56 /* UI */,
 			);
 			path = HotMic;
+			sourceTree = "<group>";
+		};
+		4FE37C4B22677C1C00286B56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FE37C5022677C2A00286B56 /* AudioUnit.framework */,
+				4FE37C4E22677C2400286B56 /* AudioToolbox.framework */,
+				4FE37C4C22677C1C00286B56 /* CoreAudio.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4FE37C5222677CC500286B56 /* CAUtility */ = {
+			isa = PBXGroup;
+			children = (
+				4FE37C5322677CC500286B56 /* CAAtomic.h */,
+				4FE37C5722677CC500286B56 /* CAAutoDisposer.h */,
+				4FE37C5522677CC500286B56 /* CABitOperations.h */,
+				4FE37C5822677CC500286B56 /* CADebugMacros.h */,
+				4FE37C5B22677CC500286B56 /* CAMath.h */,
+				4FE37C5922677CC500286B56 /* CARingBuffer.cpp */,
+				4FE37C5622677CC500286B56 /* CARingBuffer.h */,
+				4FE37C5A22677CC500286B56 /* CAStreamBasicDescription.cpp */,
+				4FE37C5422677CC500286B56 /* CAStreamBasicDescription.h */,
+			);
+			path = CAUtility;
+			sourceTree = "<group>";
+		};
+		4FE37C5C22677CC500286B56 /* Audio Devices */ = {
+			isa = PBXGroup;
+			children = (
+				4FE37C5E22677CC500286B56 /* THMAudioDevice.h */,
+				4FE37C6022677CC500286B56 /* THMAudioDevice.m */,
+				4FE37C5D22677CC500286B56 /* THMAudioDeviceList.h */,
+				4FE37C6122677CC500286B56 /* THMAudioDeviceList.m */,
+				4FE37C6222677CC500286B56 /* THMAudioDeviceSource.h */,
+				4FE37C5F22677CC500286B56 /* THMAudioDeviceSource.m */,
+			);
+			path = "Audio Devices";
+			sourceTree = "<group>";
+		};
+		4FE37C6322677CC500286B56 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				4FE37C6522677CC500286B56 /* THMLogging.h */,
+				4FE37C6422677CC500286B56 /* THMSingleton.h */,
+				4FE37C6622677CC500286B56 /* THMSingleton.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		4FE37C6722677CC500286B56 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4FE37C6922677CC500286B56 /* THMPlayThru.h */,
+				4FE37C6B22677CC500286B56 /* THMPlayThru.m */,
+				4FE37C6A22677CC500286B56 /* THMPlayThruController.h */,
+				4FE37C6822677CC500286B56 /* THMPlayThruController.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4FE37C7422677D1400286B56 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				4FE37C3B22677A6600286B56 /* Main.storyboard */,
+				4FE37C7A22677D1400286B56 /* THMMenuItem.h */,
+				4FE37C7522677D1400286B56 /* THMMenuItem.m */,
+				4FE37C7C22677D1400286B56 /* THMSliderCell.h */,
+				4FE37C7622677D1400286B56 /* THMSliderCell.m */,
+				4FE37C3622677A6500286B56 /* THMViewController.h */,
+				4FE37C3722677A6500286B56 /* THMViewController.m */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -101,6 +223,14 @@
 				TargetAttributes = {
 					4FE37C2F22677A6500286B56 = {
 						CreatedOnToolsVersion = 10.2;
+						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -139,9 +269,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FE37C3822677A6500286B56 /* ViewController.m in Sources */,
+				4FE37C3822677A6500286B56 /* THMViewController.m in Sources */,
+				4FE37C7D22677D1400286B56 /* THMMenuItem.m in Sources */,
 				4FE37C4022677A6600286B56 /* main.m in Sources */,
 				4FE37C3522677A6500286B56 /* AppDelegate.m in Sources */,
+				4FE37C6E22677CC500286B56 /* THMAudioDeviceSource.m in Sources */,
+				4FE37C6C22677CC500286B56 /* CARingBuffer.cpp in Sources */,
+				4FE37C6F22677CC500286B56 /* THMAudioDevice.m in Sources */,
+				4FE37C7222677CC500286B56 /* THMPlayThruController.m in Sources */,
+				4FE37C7022677CC500286B56 /* THMAudioDeviceList.m in Sources */,
+				4FE37C7322677CC500286B56 /* THMPlayThru.m in Sources */,
+				4FE37C6D22677CC500286B56 /* CAStreamBasicDescription.cpp in Sources */,
+				4FE37C7122677CC500286B56 /* THMSingleton.m in Sources */,
+				4FE37C7E22677D1400286B56 /* THMSliderCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +418,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VQCYSNZB89;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_PEDANTIC = YES;
 				INFOPLIST_FILE = HotMic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -296,6 +439,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = VQCYSNZB89;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_PEDANTIC = YES;
 				INFOPLIST_FILE = HotMic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

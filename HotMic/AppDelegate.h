@@ -7,9 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "THMPlayThruController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+@property THMPlayThruController *playThroughController;
+
+- (void)settingsChanged:(NSNotification *)notification;
 
 @end
 
