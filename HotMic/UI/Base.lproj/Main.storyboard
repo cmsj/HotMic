@@ -244,10 +244,6 @@
                             <constraint firstItem="BKy-Ry-Msq" firstAttribute="leading" secondItem="Ev3-cL-ZcR" secondAttribute="trailing" constant="8" symbolic="YES" id="xiX-9w-0Nj"/>
                             <constraint firstItem="Ev3-cL-ZcR" firstAttribute="top" secondItem="BKy-Ry-Msq" secondAttribute="top" id="y7e-xi-Lsc"/>
                         </constraints>
-                        <connections>
-                            <outlet property="inputSliderCell" destination="7dl-w6-joY" id="5Q9-nq-ydN"/>
-                            <outlet property="outputSliderCell" destination="Dz9-cE-DOh" id="5rJ-vN-SYS"/>
-                        </connections>
                     </view>
                     <connections>
                         <outlet property="enabledButton" destination="cmN-C7-4jx" id="iEn-p8-iwD"/>

@@ -61,15 +61,20 @@
     
     [self computeThruOffset];
 
+    // FIXME: We don't ever tear these down, perhaps we should?
     __weak THMPlayThru *weakself = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidAppear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
         THMPlayThru *playThru = weakself;
-        playThru->isUIVisible = YES;
+        if (playThru) {
+            playThru->isUIVisible = YES;
+        }
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidDisappear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
         THMPlayThru *playThru = weakself;
-        playThru->isUIVisible = NO;
-        playThru->lastDecibels = 0.0;
+        if (playThru) {
+            playThru->isUIVisible = NO;
+            playThru->lastDecibels = 0.0;
+        }
     }];
 }
 
