@@ -51,8 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
     Float64 mInToOutSampleOffset;
 
     BOOL isUIVisible;
-    Float32 lastDecibels;
+    Float32 lastAmplitude;
 }
+
+@property (nonatomic) id uiDidAppearObserver;
+@property (nonatomic) id uiDidDisappearObserver;
 
 - (id)initWithInputDevice:(THMAudioDevice *)input andOutputDevice:(THMAudioDevice *)output;
 - (BOOL)start;

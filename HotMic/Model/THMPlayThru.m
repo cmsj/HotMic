@@ -29,6 +29,9 @@
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self.uiDidAppearObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.uiDidDisappearObserver];
+
     [self stop];
 
     delete mBuffer;
@@ -61,19 +64,18 @@
     
     [self computeThruOffset];
 
-    // FIXME: We don't ever tear these down, perhaps we should?
     __weak THMPlayThru *weakself = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidAppear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
+    self.uiDidAppearObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidAppear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
         THMPlayThru *playThru = weakself;
         if (playThru) {
             playThru->isUIVisible = YES;
         }
     }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidDisappear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
+    self.uiDidDisappearObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidDisappear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
         THMPlayThru *playThru = weakself;
         if (playThru) {
             playThru->isUIVisible = NO;
-            playThru->lastDecibels = 0.0;
+            playThru->lastAmplitude = 0.0;
         }
     }];
 }
@@ -84,7 +86,7 @@
     }
     OSStatus err = noErr;
 
-    NSLog(@"Starting THMPlayThru");
+    //NSLog(@"Starting THMPlayThru");
     err = AudioOutputUnitStart(mInputUnit);
     checkErr(err);
     err = AUGraphStart(mGraph);
@@ -104,7 +106,7 @@
     mFirstInputTime = -1;
     mFirstOutputTime = -1;
 
-    lastDecibels = 0.0;
+    lastAmplitude = 0.0;
 
     return YES;
 }
@@ -495,7 +497,7 @@ OSStatus InputProc(void *inRefCon,
             }
         }
         //printf("decibel: %f\n", peakValue);
-        This->lastDecibels = peakValue;
+        This->lastAmplitude = peakValue;
     }
 
     if (!err) {
@@ -525,7 +527,7 @@ OSStatus OutputProc(void *inRefCon,
     //printf("OutputProc called\n");
     if (This->mFirstInputTime < 0.) {
         // input hasn't run yet -> silence
-        printf("OutputProc: no input yet, outputting silence\n");
+        //printf("OutputProc: no input yet, outputting silence\n");
         MakeBufferSilent (ioData);
         return noErr;
     }
