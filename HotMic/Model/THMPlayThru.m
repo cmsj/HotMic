@@ -457,6 +457,7 @@
     // FIXME: double check that our bufferSize property matches the original mBufferSizeFrames property from CAPlayThrough::AudioDevice::
     mInToOutSampleOffset = SInt32(inputDevice.safetyOffset +  inputDevice.bufferSize +
                                   outputDevice.safetyOffset + outputDevice.bufferSize);
+    NSLog(@"computeThruOffset: %d + %d + %d + %d = %f", inputDevice.safetyOffset, inputDevice.bufferSize, outputDevice.safetyOffset, outputDevice.bufferSize, mInToOutSampleOffset);
 }
 
 @end
@@ -478,7 +479,7 @@ OSStatus InputProc(void *inRefCon,
         This->mFirstInputTime = inTimeStamp->mSampleTime;
 
     //Get the new audio data
-    //printf("Reading %d frames\n", inNumberFrames);
+    //printf("Reading %d frames for %f\n", inNumberFrames, inTimeStamp->mSampleTime);
     err = AudioUnitRender(This->mInputUnit,
                           ioActionFlags,
                           inTimeStamp,
@@ -566,7 +567,7 @@ OSStatus OutputProc(void *inRefCon,
     }
 
     //copy the data from the buffers
-    //printf("Writing %d frames\n", inNumberFrames);
+    //printf("Writing %d frames for %f\n", inNumberFrames, TimeStamp->mSampleTime);
     err = This->mBuffer->Fetch(ioData, inNumberFrames, SInt64(TimeStamp->mSampleTime - This->mInToOutSampleOffset));
     if(err != kCARingBufferError_OK)
     {

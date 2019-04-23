@@ -15,7 +15,7 @@
 		4FE37C4D22677C1C00286B56 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE37C4C22677C1C00286B56 /* CoreAudio.framework */; };
 		4FE37C4F22677C2400286B56 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE37C4E22677C2400286B56 /* AudioToolbox.framework */; };
 		4FE37C5122677C2A00286B56 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE37C5022677C2A00286B56 /* AudioUnit.framework */; };
-		4FE37C6C22677CC500286B56 /* CARingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C5922677CC500286B56 /* CARingBuffer.cpp */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
+		4FE37C6C22677CC500286B56 /* CARingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C5922677CC500286B56 /* CARingBuffer.cpp */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -Wno-gnu-zero-variadic-macro-arguments -Wno-variadic-macros"; }; };
 		4FE37C6D22677CC500286B56 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C5A22677CC500286B56 /* CAStreamBasicDescription.cpp */; };
 		4FE37C6E22677CC500286B56 /* THMAudioDeviceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C5F22677CC500286B56 /* THMAudioDeviceSource.m */; };
 		4FE37C6F22677CC500286B56 /* THMAudioDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6022677CC500286B56 /* THMAudioDevice.m */; };
