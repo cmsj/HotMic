@@ -489,6 +489,7 @@ OSStatus InputProc(void *inRefCon,
     checkErr(err);
 
     if(!err && This->isUIVisible) {
+        // Calculate audio sample amplitude for the UI metering
         Float32 *samples = (Float32*)(This->mInputBuffer->mBuffers[0].mData);
         Float32 peakValue = 0.0;
         for (int i = 0; i < inNumberFrames; i++) {
