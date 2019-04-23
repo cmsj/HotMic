@@ -410,7 +410,7 @@
     //Set the new formats to the AUs...
     err = AudioUnitSetProperty(mInputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &asbd, propertySize);
     checkErr(err);
-    printf("=====current Input (Client) stream format\n");
+    printf("=====Final Input (Client) stream format\n");
     asbd.Print();
     err = AudioUnitSetProperty(mVarispeedUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, propertySize);
     checkErr(err);
@@ -477,6 +477,11 @@ OSStatus InputProc(void *inRefCon,
     THMPlayThru *This = (__bridge THMPlayThru *)inRefCon;
     if (This->mFirstInputTime < 0.)
         This->mFirstInputTime = inTimeStamp->mSampleTime;
+    This->mLastInputTime = inTimeStamp->mSampleTime;
+
+    if (!(inTimeStamp->mFlags & kAudioTimeStampSampleTimeValid)) {
+        printf("INPUTPROC: AUDIO TIMESTAMP IS NOT VALID");
+    }
 
     //Get the new audio data
     //printf("Reading %d frames for %f\n", inNumberFrames, inTimeStamp->mSampleTime);
@@ -504,6 +509,9 @@ OSStatus InputProc(void *inRefCon,
 
     if (!err) {
         err = This->mBuffer->Store(This->mInputBuffer, Float64(inNumberFrames), SInt64(inTimeStamp->mSampleTime));
+        if (err != kCARingBufferError_OK) {
+            printf("INPUTPROC: Ring Buffer Store(): %d\n", err);
+        }
     }
 
     return err;
@@ -524,14 +532,18 @@ OSStatus OutputProc(void *inRefCon,
 {
     OSStatus err = noErr;
     THMPlayThru *This = (__bridge THMPlayThru *)inRefCon;
-    Float64 rate = 0.0;
+    Float64 rate = 1.0;
     AudioTimeStamp inTS, outTS;
     //printf("OutputProc called\n");
     if (This->mFirstInputTime < 0.) {
         // input hasn't run yet -> silence
-        //printf("OutputProc: no input yet, outputting silence\n");
+        printf("OutputProc: no input yet, outputting silence\n");
         MakeBufferSilent (ioData);
         return noErr;
+    }
+
+    if (!(TimeStamp->mFlags & kAudioTimeStampSampleTimeValid)) {
+        printf("OUTPUTPROC: AUDIO TIMESTAMP IS NOT VALID");
     }
 
     //use the varispeed playback rate to offset small discrepancies in sample rate
@@ -548,8 +560,31 @@ OSStatus OutputProc(void *inRefCon,
     err = AudioDeviceGetCurrentTime(This->outputDeviceID, &outTS);
     checkErr(err);
 
-    rate = inTS.mRateScalar / outTS.mRateScalar;
-    err = AudioUnitSetParameter(This->mVarispeedUnit,kVarispeedParam_PlaybackRate,kAudioUnitScope_Global,0, rate,0);
+    // Figure out what playback rate we need to set on the Varispeed unit to compensate for the current drift
+    Float64 sampleDelta = TimeStamp->mSampleTime - This->mLastInputTime;
+    if (This->mTargetSampleDelta == 0.0 && sampleDelta == 0.0) {
+        // We don't have a target sample delta yet, or a current sample delta, so do nothing
+        printf("No target sample delta history yet.\n");
+    } else if (This->mTargetSampleDelta == 0.0 && sampleDelta != 0.0) {
+        // This is our first sample delta, so we will take that as our target
+        This->mTargetSampleDelta = sampleDelta;
+        printf("Set target sample delta to: %f\n", sampleDelta);
+    }
+
+    if (This->mTargetSampleDelta != 0 && sampleDelta != This->mTargetSampleDelta) {
+        // Our playback is drifting, use the varispeed to correct it
+        rate = 1.0;
+        if (sampleDelta > This->mTargetSampleDelta) {
+            rate = 0.99;
+        } else {
+            rate = 1.01;
+        }
+        printf("Read/Write delta (%0.2f) deviated from target (%.2f), set rate to: %f\n", sampleDelta, This->mTargetSampleDelta, rate);
+    }
+
+    //rate = inTS.mRateScalar / outTS.mRateScalar;
+    //if (rate != 1.0) printf("OUTPUTPROC: playback rate varied from 1.0: %f\n", rate);
+    err = AudioUnitSetParameter(This->mVarispeedUnit, kVarispeedParam_PlaybackRate, kAudioUnitScope_Global, 0, rate, 0);
     checkErr(err);
 
     //get Delta between the devices and add it to the offset
@@ -562,16 +597,20 @@ OSStatus OutputProc(void *inRefCon,
             This->mInToOutSampleOffset -= delta;
         else
             This->mInToOutSampleOffset = -delta + This->mInToOutSampleOffset;
+        printf("OUTPUTPROC: Adding sample offset delta: %0.2f, new offset: %0.2f\n", delta, This->mInToOutSampleOffset);
 
         MakeBufferSilent (ioData);
         return noErr;
     }
 
     //copy the data from the buffers
-    //printf("Writing %d frames for %f\n", inNumberFrames, TimeStamp->mSampleTime);
+    //printf("Writing %d frames for %f\n", inNumberFrames, TimeStamp->mSampleTime - This->mInToOutSampleOffset);
+
     err = This->mBuffer->Fetch(ioData, inNumberFrames, SInt64(TimeStamp->mSampleTime - This->mInToOutSampleOffset));
+
     if(err != kCARingBufferError_OK)
     {
+        printf("OUTPUTPROC: Ring Buffer Fetch: %d\n", err);
         MakeBufferSilent (ioData);
         SInt64 bufferStartTime, bufferEndTime;
         This->mBuffer->GetTimeBounds(bufferStartTime, bufferEndTime);

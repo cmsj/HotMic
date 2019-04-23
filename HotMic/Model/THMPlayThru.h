@@ -47,8 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
     AudioUnit mOutputUnit;
 
     Float64 mFirstInputTime;
+    Float64 mLastInputTime;
     Float64 mFirstOutputTime;
     Float64 mInToOutSampleOffset;
+    Float64 mTargetSampleDelta;
 
     BOOL isUIVisible;
     Float32 lastAmplitude;
