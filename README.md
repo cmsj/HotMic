@@ -25,11 +25,11 @@ I don't currently plan to invest many more hours into this for now. SoundSource 
 
 However, if someone comes across this and knows their way around CoreAudio a bit better than I do, I would love to collaborate with you to get this working. File Issues or Pull Requests and let's talk!
 
-## Whos shoulders did you stand on for this?
+## Whose shoulders did you stand on for this?
 
 A non-exhaustive list:
  * Apple (for the CAPlayThrough example)
  * Various CAPlayThrough forks with fixes/changes:
    * [https://github.com/liscio/CAPlayThrough](https://github.com/liscio/CAPlayThrough)
    * [https://github.com/yujitach/CAPlayThrough](https://github.com/yujitach/CAPlayThrough)
- * Historical posters on coreaudio-api@lists.apple.com for their discussions about CAPlayThrough
+ * Current and historical posters on coreaudio-api@lists.apple.com for their discussions about CAPlayThrough
