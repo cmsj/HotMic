@@ -13,6 +13,7 @@
 #import "THMAudioDeviceSource.h"
 #import "THMPlayThru.h"
 #import "THMSingleton.h"
+#import "THMLogging.h"
 
 const AudioObjectPropertySelector watchSelectors[] = {
     kAudioHardwarePropertyDevices,
@@ -31,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @property THMPlayThru * _Nullable playThru;
+@property THMAudioDevice * _Nullable aggregate;
 @property THMAudioDeviceList *deviceList;
 @property (nonatomic, setter=setInputUID:) NSString *inputUID;
 @property (nonatomic, setter=setOutputUID:) NSString *outputUID;
@@ -55,6 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)inputDeviceSelected:(NSNotification *)notification;
 - (void)outputDeviceSelected:(NSNotification *)notification;
 - (void)enabledSelected:(NSNotification *)notification;
+
+- (BOOL)createAggregateDevice;
+- (BOOL)deleteAggregateDevice;
+- (BOOL)aggregateDeviceExists;
+
 @end
 
 NS_ASSUME_NONNULL_END

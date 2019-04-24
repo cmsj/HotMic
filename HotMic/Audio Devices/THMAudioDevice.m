@@ -8,6 +8,7 @@
 
 #import "THMAudioDevice.h"
 
+// FIXME: This object currently only thinks it can represent plain input or output devices, we should extend it to understand when it's an aggregate device too
 @implementation THMAudioDevice
 - (id)initWithDeviceID:(UInt32)deviceID input:(BOOL)input {
     if (deviceID == kAudioDeviceUnknown) {

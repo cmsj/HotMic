@@ -181,6 +181,7 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
     streamListenerQueue = nil;
     self.playThru = nil;
     [THMSingleton sharedInstance].playThru = nil;
+    [self deleteAggregateDevice];
 }
 
 - (void)restart {
@@ -210,6 +211,140 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:@"THMControllerPushUIState" object:nil userInfo:state];
 }
+
+#pragma mark - Aggregate Device lifecycle
+- (BOOL)createAggregateDevice {
+    OSStatus status = noErr;
+    UInt32 outSize = 0;
+    Boolean outWritable;
+
+    AudioObjectPropertyAddress propertyAddress;
+    propertyAddress.mSelector = kAudioHardwarePropertyPlugInForBundleID;
+    propertyAddress.mScope = kAudioObjectPropertyScopeGlobal;
+    propertyAddress.mElement = kAudioObjectPropertyElementMaster;
+
+    status = AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &outSize);
+    checkErrBool(status);
+    status = AudioObjectIsPropertySettable(kAudioObjectSystemObject, &propertyAddress, &outWritable);
+    checkErrBool(status);
+
+    AudioValueTranslation pluginAVT;
+
+    CFStringRef inBundleRef = CFSTR("com.apple.audio.CoreAudio");
+    AudioObjectID pluginID = UINT32_MAX;
+
+    pluginAVT.mInputData = &inBundleRef;
+    pluginAVT.mInputDataSize = sizeof(inBundleRef);
+    pluginAVT.mOutputData = &pluginID;
+    pluginAVT.mOutputDataSize = sizeof(pluginID);
+
+    status = AudioObjectGetPropertyData(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &outSize, &pluginAVT);
+    if (status != noErr || pluginID == UINT32_MAX)
+        return NO;
+
+
+    CFMutableDictionaryRef aggDeviceDict = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    CFDictionaryAddValue(aggDeviceDict, CFSTR(kAudioAggregateDeviceNameKey), CFSTR("HotMic"));
+    CFDictionaryAddValue(aggDeviceDict, CFSTR(kAudioAggregateDeviceUIDKey), CFSTR("net.tenshu.Hotmic"));
+
+    /* This should make the device private, but it always throws OSError 1852797029 which is some kind of illegal operation error. Yay.
+     int value = 1;
+     CFNumberRef cfValue = CFNumberCreate(NULL, kCFNumberIntType, &value);
+     CFDictionaryAddValue(aggDeviceDict, CFSTR(kAudioAggregateDeviceIsPrivateKey), cfValue);
+     */
+
+    CFMutableArrayRef subDevicesArray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+    CFArrayAppendValue(subDevicesArray, (__bridge CFStringRef)self.inputDevice.UID);
+    CFArrayAppendValue(subDevicesArray, (__bridge CFStringRef)self.outputDevice.UID);
+
+    //-----------------------
+    // Feed the dictionary to the plugin, to create a blank aggregate device
+    //-----------------------
+
+    propertyAddress.mSelector = kAudioPlugInCreateAggregateDevice;
+
+    status = AudioObjectGetPropertyDataSize(pluginID, &propertyAddress, 0, NULL, &outSize);
+    checkErrBool(status);
+
+    AudioDeviceID outAggregateDevice;
+
+    status = AudioObjectGetPropertyData(pluginID, &propertyAddress, sizeof(aggDeviceDict), &aggDeviceDict, &outSize, &outAggregateDevice);
+    checkErrBool(status);
+
+    // pause for a bit to make sure that everything completed correctly
+    // this is to work around a bug in the HAL where a new aggregate device seems to disappear briefly after it is created
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+
+    //-----------------------
+    // Set the sub-device list
+    //-----------------------
+
+    propertyAddress.mSelector = kAudioAggregateDevicePropertyFullSubDeviceList;
+
+    outSize = sizeof(CFMutableArrayRef);
+    status = AudioObjectSetPropertyData(outAggregateDevice, &propertyAddress, 0, NULL, outSize, &subDevicesArray);
+    checkErrBool(status);
+
+    // pause again to give the changes time to take effect
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+
+    //-----------------------
+    // Set the master device
+    //-----------------------
+
+    // set the master device manually (this is the device which will act as the master clock for the aggregate device)
+    // pass in the UID of the device you want to use
+    propertyAddress.mSelector = kAudioAggregateDevicePropertyMasterSubDevice;
+    CFStringRef deviceUID = (__bridge CFStringRef)self.outputDevice.UID;
+    outSize = sizeof(deviceUID);
+
+    status = AudioObjectSetPropertyData(outAggregateDevice, &propertyAddress, 0, NULL, outSize, &deviceUID);
+    checkErrBool(status);
+
+    // FIXME: Do we need to do anything with either kAudioAggregateDevicePropertyClockDevice or kAudioSubDevicePropertyDriftCompensation here?
+    // (if so, we need to do the runloop pause before the drift compensation, it would seem: https://lists.apple.com/archives/coreaudio-api/2014/Mar/msg00037.html
+
+    // pause again to give the changes time to take effect
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+    //-----------------------
+    // Clean up
+    //-----------------------
+
+    // release the CF objects we have created - we don't need them any more
+    CFRelease(aggDeviceDict);
+
+    self.aggregate = [[THMAudioDevice alloc] initWithDeviceID:outAggregateDevice input:YES];
+    NSLog(@"Created aggregate device: %@ (%u)", self.aggregate.UID, (unsigned int)self.aggregate.ID);
+
+    return YES;
+}
+
+// FIXME: This never seems to work for me, even though it looks correct to my eyes. Consistently throws an OSError 2003332927 at the GetPropertyDataSize
+- (BOOL)deleteAggregateDevice {
+    AudioObjectPropertyAddress property_address;
+    property_address.mSelector = kAudioPlugInDestroyAggregateDevice;
+    property_address.mScope = kAudioObjectPropertyScopeGlobal;
+    property_address.mElement = kAudioObjectPropertyElementMaster;
+    UInt32 outDataSize = 0;
+
+    AudioDeviceID deviceID = self.aggregate.ID;
+
+    NSLog(@"Attempting to destroy aggregate device: %@ (%u)", self.aggregate.UID, (unsigned int)deviceID
+          );
+
+    checkErrBool(AudioObjectGetPropertyDataSize(deviceID, &property_address, 0, NULL, &outDataSize));
+
+    checkErrBool(AudioObjectGetPropertyData(deviceID, &property_address, 0, NULL, &outDataSize, &deviceID));
+
+    self.aggregate = nil;
+
+    return YES;
+}
+
+- (BOOL)aggregateDeviceExists {
+    return NO;
+}
+
 
 #pragma mark - Audio Device watcher lifecycle
 

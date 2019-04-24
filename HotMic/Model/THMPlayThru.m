@@ -78,6 +78,7 @@
             playThru->lastAmplitude = 0.0;
         }
     }];
+
 }
 
 - (BOOL)start {
@@ -579,7 +580,7 @@ OSStatus OutputProc(void *inRefCon,
         } else {
             rate = 1.01;
         }
-        printf("Read/Write delta (%0.2f) deviated from target (%.2f), set rate to: %f\n", sampleDelta, This->mTargetSampleDelta, rate);
+        //printf("Read/Write delta (%0.2f) deviated from target (%.2f), set rate to: %f\n", sampleDelta, This->mTargetSampleDelta, rate);
     }
 
     //rate = inTS.mRateScalar / outTS.mRateScalar;
