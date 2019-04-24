@@ -18,7 +18,7 @@ Yes, the fine folk over at Rogue Amoeba have been able to produce three perfectl
 ## So how should this be fixed?
 From what I've been able to learn by reading old posts on Apple's coreaudio-api mailing list, at least one person wrote their own Audio Unit to replace VariSpeed, but the resource they used to learn how to do that, has long since disappeared from the Internet.
 
-The current best sounding suggestion for how it might be able to work, is by creating an Aggregate audio device that contains the desired input and output audio devices, and joining them together with an AUGraph. This would mean the OS itself would keep the devices in sync. There's a separate branch in this repo which has the beginnings of an implementation of this plan (ie it can create an aggregate device with the relevant subdevices attached), but I don't understand enough about AUGraphs to implement the rest right now.
+The current best sounding suggestion (thanks to Matt Ingalls) for how it might be able to work, is by creating an Aggregate audio device that contains the desired input and output audio devices, and joining them together with an AUGraph. This would mean the OS itself would keep the devices in sync. There's a separate branch in this repo which has the beginnings of an implementation of this plan (ie it can create an aggregate device with the relevant subdevices attached), but I don't understand enough about AUGraphs to implement the rest right now.
 
 ## Where do we go from here?
 I don't currently plan to invest many more hours into this for now. SoundSource 3 will presumably work for some time to come, so I don't *need* HotMic to work until SoundSource is rendered broken by some future OS update.
