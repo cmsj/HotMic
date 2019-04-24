@@ -19,4 +19,10 @@ __LINE__\
 fflush(stdout);\
 }
 
+#define checkErrBool(err) \
+if (err != noErr) { \
+NSLog(@"%s:%d: OSError: %d", __FILE__, __LINE__, err); \
+return NO; \
+}
+
 #endif /* THMLogging_h */
