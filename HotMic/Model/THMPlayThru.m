@@ -560,6 +560,8 @@ OSStatus OutputProc(void *inRefCon,
     err = AudioDeviceGetCurrentTime(This->outputDeviceID, &outTS);
     checkErr(err);
 
+    /* This was an attempt to compensate for drift by comparing sample times and adjusting playback speed accordingly. It failed
+
     // Figure out what playback rate we need to set on the Varispeed unit to compensate for the current drift
     Float64 sampleDelta = TimeStamp->mSampleTime - This->mLastInputTime;
     if (This->mTargetSampleDelta == 0.0 && sampleDelta == 0.0) {
@@ -581,8 +583,9 @@ OSStatus OutputProc(void *inRefCon,
         }
         printf("Read/Write delta (%0.2f) deviated from target (%.2f), set rate to: %f\n", sampleDelta, This->mTargetSampleDelta, rate);
     }
+     */
 
-    //rate = inTS.mRateScalar / outTS.mRateScalar;
+    rate = inTS.mRateScalar / outTS.mRateScalar;
     //if (rate != 1.0) printf("OUTPUTPROC: playback rate varied from 1.0: %f\n", rate);
     err = AudioUnitSetParameter(This->mVarispeedUnit, kVarispeedParam_PlaybackRate, kAudioUnitScope_Global, 0, rate, 0);
     checkErr(err);
