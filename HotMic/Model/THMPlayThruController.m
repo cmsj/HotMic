@@ -159,7 +159,8 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
         return;
     }
 
-    self.playThru = [[THMPlayThru alloc] initWithInputDevice:self.inputDevice andOutputDevice:self.outputDevice];
+    //self.playThru = (THMBackEndBase *)[[THMBackEndCAPlayThrough alloc] initWithInputDevice:self.inputDevice andOutputDevice:self.outputDevice];
+    self.playThru = (THMBackEndBase *)[[THMBackEndAVFCapture alloc] initWithInputDevice:self.inputDevice andOutputDevice:self.outputDevice];
     [THMSingleton sharedInstance].playThru = self.playThru;
 
     streamListenerQueue = dispatch_queue_create("net.tenshu.HotMic.streamListenerQueue", DISPATCH_QUEUE_SERIAL);

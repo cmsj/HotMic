@@ -11,7 +11,8 @@
 #import "THMAudioDeviceList.h"
 #import "THMAudioDevice.h"
 #import "THMAudioDeviceSource.h"
-#import "THMPlayThru.h"
+#import "THMBackEndCAPlayThrough.h"
+#import "THMBackEndAVFCapture.h"
 #import "THMSingleton.h"
 
 const AudioObjectPropertySelector watchSelectors[] = {
@@ -30,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
     AudioObjectPropertyListenerBlock listenerBlock;
 }
 
-@property THMPlayThru * _Nullable playThru;
+@property THMBackEndBase * _Nullable playThru;
 @property THMAudioDeviceList *deviceList;
 @property (nonatomic, setter=setInputUID:) NSString *inputUID;
 @property (nonatomic, setter=setOutputUID:) NSString *outputUID;

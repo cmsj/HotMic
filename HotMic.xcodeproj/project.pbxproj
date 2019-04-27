@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1C2E702274A3D500166DFD /* THMBackEndBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1C2E6F2274A3D500166DFD /* THMBackEndBase.m */; };
+		4F1C2E732274A91C00166DFD /* THMBackEndAVFCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1C2E722274A91C00166DFD /* THMBackEndAVFCapture.m */; };
+		4F1C2E752274C75300166DFD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F1C2E742274C75300166DFD /* AVFoundation.framework */; };
 		4FE37C3522677A6500286B56 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C3422677A6500286B56 /* AppDelegate.m */; };
 		4FE37C3822677A6500286B56 /* THMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C3722677A6500286B56 /* THMViewController.m */; };
 		4FE37C3A22677A6600286B56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FE37C3922677A6600286B56 /* Assets.xcassets */; };
@@ -22,12 +25,17 @@
 		4FE37C7022677CC500286B56 /* THMAudioDeviceList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6122677CC500286B56 /* THMAudioDeviceList.m */; };
 		4FE37C7122677CC500286B56 /* THMSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6622677CC500286B56 /* THMSingleton.m */; };
 		4FE37C7222677CC500286B56 /* THMPlayThruController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6822677CC500286B56 /* THMPlayThruController.m */; };
-		4FE37C7322677CC500286B56 /* THMPlayThru.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6B22677CC500286B56 /* THMPlayThru.m */; };
+		4FE37C7322677CC500286B56 /* THMBackEndCAPlayThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C6B22677CC500286B56 /* THMBackEndCAPlayThrough.m */; };
 		4FE37C7D22677D1400286B56 /* THMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C7522677D1400286B56 /* THMMenuItem.m */; };
 		4FE37C7E22677D1400286B56 /* THMSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE37C7622677D1400286B56 /* THMSliderCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F1C2E6E2274A3D500166DFD /* THMBackEndBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THMBackEndBase.h; sourceTree = "<group>"; };
+		4F1C2E6F2274A3D500166DFD /* THMBackEndBase.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = THMBackEndBase.m; sourceTree = "<group>"; };
+		4F1C2E712274A91C00166DFD /* THMBackEndAVFCapture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THMBackEndAVFCapture.h; sourceTree = "<group>"; };
+		4F1C2E722274A91C00166DFD /* THMBackEndAVFCapture.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = THMBackEndAVFCapture.m; sourceTree = "<group>"; };
+		4F1C2E742274C75300166DFD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		4FE37C3022677A6500286B56 /* HotMic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotMic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FE37C3322677A6500286B56 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4FE37C3422677A6500286B56 /* AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -60,9 +68,9 @@
 		4FE37C6522677CC500286B56 /* THMLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMLogging.h; sourceTree = "<group>"; };
 		4FE37C6622677CC500286B56 /* THMSingleton.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMSingleton.m; sourceTree = "<group>"; };
 		4FE37C6822677CC500286B56 /* THMPlayThruController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMPlayThruController.m; sourceTree = "<group>"; };
-		4FE37C6922677CC500286B56 /* THMPlayThru.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMPlayThru.h; sourceTree = "<group>"; };
+		4FE37C6922677CC500286B56 /* THMBackEndCAPlayThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMBackEndCAPlayThrough.h; sourceTree = "<group>"; };
 		4FE37C6A22677CC500286B56 /* THMPlayThruController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMPlayThruController.h; sourceTree = "<group>"; };
-		4FE37C6B22677CC500286B56 /* THMPlayThru.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMPlayThru.m; sourceTree = "<group>"; };
+		4FE37C6B22677CC500286B56 /* THMBackEndCAPlayThrough.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMBackEndCAPlayThrough.m; sourceTree = "<group>"; };
 		4FE37C7522677D1400286B56 /* THMMenuItem.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMMenuItem.m; sourceTree = "<group>"; };
 		4FE37C7622677D1400286B56 /* THMSliderCell.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = THMSliderCell.m; sourceTree = "<group>"; };
 		4FE37C7A22677D1400286B56 /* THMMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THMMenuItem.h; sourceTree = "<group>"; };
@@ -74,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F1C2E752274C75300166DFD /* AVFoundation.framework in Frameworks */,
 				4FE37C4D22677C1C00286B56 /* CoreAudio.framework in Frameworks */,
 				4FE37C4F22677C2400286B56 /* AudioToolbox.framework in Frameworks */,
 				4FE37C5122677C2A00286B56 /* AudioUnit.framework in Frameworks */,
@@ -83,6 +92,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F1C2E6D2274A29000166DFD /* Audio Backends */ = {
+			isa = PBXGroup;
+			children = (
+				4F1C2E6E2274A3D500166DFD /* THMBackEndBase.h */,
+				4F1C2E6F2274A3D500166DFD /* THMBackEndBase.m */,
+				4FE37C6922677CC500286B56 /* THMBackEndCAPlayThrough.h */,
+				4FE37C6B22677CC500286B56 /* THMBackEndCAPlayThrough.m */,
+				4F1C2E712274A91C00166DFD /* THMBackEndAVFCapture.h */,
+				4F1C2E722274A91C00166DFD /* THMBackEndAVFCapture.m */,
+			);
+			path = "Audio Backends";
+			sourceTree = "<group>";
+		};
 		4FE37C2722677A6500286B56 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +125,7 @@
 		4FE37C3222677A6500286B56 /* HotMic */ = {
 			isa = PBXGroup;
 			children = (
+				4F1C2E6D2274A29000166DFD /* Audio Backends */,
 				4FE37C3922677A6600286B56 /* Assets.xcassets */,
 				4FE37C3E22677A6600286B56 /* Info.plist */,
 				4FE37C4122677A6600286B56 /* HotMic.entitlements */,
@@ -121,6 +144,7 @@
 		4FE37C4B22677C1C00286B56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F1C2E742274C75300166DFD /* AVFoundation.framework */,
 				4FE37C5022677C2A00286B56 /* AudioUnit.framework */,
 				4FE37C4E22677C2400286B56 /* AudioToolbox.framework */,
 				4FE37C4C22677C1C00286B56 /* CoreAudio.framework */,
@@ -170,8 +194,6 @@
 		4FE37C6722677CC500286B56 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4FE37C6922677CC500286B56 /* THMPlayThru.h */,
-				4FE37C6B22677CC500286B56 /* THMPlayThru.m */,
 				4FE37C6A22677CC500286B56 /* THMPlayThruController.h */,
 				4FE37C6822677CC500286B56 /* THMPlayThruController.m */,
 			);
@@ -278,10 +300,12 @@
 				4FE37C6F22677CC500286B56 /* THMAudioDevice.m in Sources */,
 				4FE37C7222677CC500286B56 /* THMPlayThruController.m in Sources */,
 				4FE37C7022677CC500286B56 /* THMAudioDeviceList.m in Sources */,
-				4FE37C7322677CC500286B56 /* THMPlayThru.m in Sources */,
+				4FE37C7322677CC500286B56 /* THMBackEndCAPlayThrough.m in Sources */,
 				4FE37C6D22677CC500286B56 /* CAStreamBasicDescription.cpp in Sources */,
+				4F1C2E702274A3D500166DFD /* THMBackEndBase.m in Sources */,
 				4FE37C7122677CC500286B56 /* THMSingleton.m in Sources */,
 				4FE37C7E22677D1400286B56 /* THMSliderCell.m in Sources */,
+				4F1C2E732274A91C00166DFD /* THMBackEndAVFCapture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

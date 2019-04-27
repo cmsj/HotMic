@@ -1,5 +1,5 @@
 //
-//  THMPlayThru.h
+//  THMBackEndCAPlayThrough.h
 //  HotMic
 //
 //  Created by Chris Jones on 03/04/2019.
@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "THMAudioDevice.h"
+#import "THMBackEndBase.h"
 
 #import "CARingBuffer.h"
 #import "CAStreamBasicDescription.h"
@@ -29,13 +30,8 @@ OSStatus OutputProc(void * _Nonnull inRefCon,
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface THMPlayThru : NSObject {
+@interface THMBackEndCAPlayThrough : THMBackEndBase {
 @public
-    THMAudioDevice *inputDevice;
-    THMAudioDevice *outputDevice;
-    AudioDeviceID inputDeviceID;
-    AudioDeviceID outputDeviceID;
-
     AudioUnit mInputUnit;
     AudioBufferList *mInputBuffer;
     CARingBuffer *mBuffer;
@@ -51,13 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     Float64 mFirstOutputTime;
     Float64 mInToOutSampleOffset;
     Float64 mTargetSampleDelta;
-
-    BOOL isUIVisible;
-    Float32 lastAmplitude;
 }
-
-@property (nonatomic) id uiDidAppearObserver;
-@property (nonatomic) id uiDidDisappearObserver;
 
 - (id)initWithInputDevice:(THMAudioDevice *)input andOutputDevice:(THMAudioDevice *)output;
 - (BOOL)start;

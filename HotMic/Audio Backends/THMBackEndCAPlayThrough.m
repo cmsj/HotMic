@@ -1,37 +1,28 @@
 //
-//  THMPlayThru.m
+//  THMBackEndCAPlayThrough
 //  HotMic
 //
 //  Created by Chris Jones on 03/04/2019.
 //  Copyright © 2019 Chris Jones. All rights reserved.
 //
 
-#import "THMPlayThru.h"
+#import "THMBackEndCAPlayThrough.h"
 #import "THMLogging.h"
 
-@implementation THMPlayThru
+@implementation THMBackEndCAPlayThrough
 
 // FIXME: NOTHING IN HERE IS CHECKING ERRORS ZOMG
 
 - (id)initWithInputDevice:(THMAudioDevice *)input andOutputDevice:(THMAudioDevice *)output {
-    self = [super init];
+    self = [super initWithInputDevice:input andOutputDevice:output];
     if (self) {
-        isUIVisible = NO;
-        inputDevice = input;
-        outputDevice = output;
-
-        // We store these explicitly to avoid a dot-property lookup in OutputProc()
-        inputDeviceID = input.ID;
-        outputDeviceID = output.ID;
         [self setup];
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self.uiDidAppearObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.uiDidDisappearObserver];
-
+    [self removeUIObservers];
     [self stop];
 
     delete mBuffer;
@@ -64,20 +55,7 @@
     
     [self computeThruOffset];
 
-    __weak THMPlayThru *weakself = self;
-    self.uiDidAppearObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidAppear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
-        THMPlayThru *playThru = weakself;
-        if (playThru) {
-            playThru->isUIVisible = YES;
-        }
-    }];
-    self.uiDidDisappearObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidDisappear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
-        THMPlayThru *playThru = weakself;
-        if (playThru) {
-            playThru->isUIVisible = NO;
-            playThru->lastAmplitude = 0.0;
-        }
-    }];
+    [self addUIObservers:NO];
 }
 
 - (BOOL)start {
@@ -474,7 +452,7 @@ OSStatus InputProc(void *inRefCon,
     OSStatus err = noErr;
 
     //printf("InputProc called\n");
-    THMPlayThru *This = (__bridge THMPlayThru *)inRefCon;
+    THMBackEndCAPlayThrough *This = (__bridge THMBackEndCAPlayThrough *)inRefCon;
     if (This->mFirstInputTime < 0.)
         This->mFirstInputTime = inTimeStamp->mSampleTime;
     This->mLastInputTime = inTimeStamp->mSampleTime;
@@ -531,7 +509,7 @@ OSStatus OutputProc(void *inRefCon,
                     AudioBufferList * ioData)
 {
     OSStatus err = noErr;
-    THMPlayThru *This = (__bridge THMPlayThru *)inRefCon;
+    THMBackEndCAPlayThrough *This = (__bridge THMBackEndCAPlayThrough *)inRefCon;
     Float64 rate = 1.0;
     AudioTimeStamp inTS, outTS;
     //printf("OutputProc called\n");

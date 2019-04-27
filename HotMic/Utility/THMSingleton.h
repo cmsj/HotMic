@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "THMPlayThru.h"
+#import "THMBackEndBase.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface THMSingleton : NSObject
 
-@property (nonatomic) THMPlayThru * _Nullable playThru;
+@property (nonatomic) THMBackEndBase * _Nullable playThru;
 @property (nonatomic, getter=getLastDecibels) Float32 lastDecibels;
 
 + (THMSingleton *)sharedInstance;
