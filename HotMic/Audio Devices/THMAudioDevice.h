@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, getter=getFormat) CAStreamBasicDescription format;
 @property (readonly, getter=getSafetyOffset) UInt32 safetyOffset;
 @property (nonatomic) NSSlider * _Nullable slider;
+@property (nonatomic, getter=getVolume, setter=setVolume:) float volume;
 
 - (id)initWithDeviceID:(UInt32)deviceID input:(BOOL)input;
 - (void)addStreamListeners:(AudioObjectPropertyListenerBlock)block withQueue:(dispatch_queue_t)queue;
@@ -39,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stopVolumeWatcher;
 - (void)setSliderValue:(float)value;
 - (void)setVolume:(float)value;
+- (float)getVolume;
 
 // FIXME: These are private getters for properties, and their support methods. Should they be declared here?
 - (BOOL)isValid;

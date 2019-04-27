@@ -17,6 +17,9 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(updateSelections:) name:@"THMControllerAudioDevicesChanged" object:nil];
     [center addObserver:self selector:@selector(receiveUIState:) name:@"THMControllerPushUIState" object:nil];
+
+    [center postNotificationName:@"THMViewDidLoad" object:nil];
+
     self.singleton = [THMSingleton sharedInstance];
 }
 
@@ -111,7 +114,7 @@
 
 - (void)receiveUIState:(NSNotification*)notification {
     NSDictionary *userInfo = notification.userInfo;
-    //NSLog(@"receiveUIState: %@", userInfo);
+    NSLog(@"receiveUIState: %@", userInfo);
 
     [self setUIEnabledState:((NSNumber*)userInfo[@"startupDone"]).boolValue];
     self.enabledButton.state = ((NSNumber*)userInfo[@"isEnabled"]).boolValue ? NSControlStateValueOn : NSControlStateValueOff;
@@ -136,7 +139,9 @@
         }
     }
 
-    // FIXME: Set the input/output volume slider widgets
+    self.inputSlider.floatValue = ((NSNumber *)userInfo[@"inputVolume"]).floatValue;
+
+    self.outputSlider.floatValue = ((NSNumber *)userInfo[@"outputVolume"]).floatValue;
 }
 
 #pragma mark - UI action callbacks
@@ -172,11 +177,11 @@
 }
 
 - (IBAction)inputSliderChanged:(id)sender {
-    [self.inputDevice setVolume:self.inputSlider.floatValue];
+    self.inputDevice.volume = self.inputSlider.floatValue;
 }
 
 - (IBAction)outputSliderChanged:(id)sender {
-    [self.outputDevice setVolume:self.outputSlider.floatValue];
+    self.outputDevice.volume = self.outputSlider.floatValue;
 }
 
 #pragma mark - Private setters

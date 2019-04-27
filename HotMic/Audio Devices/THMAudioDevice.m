@@ -337,4 +337,19 @@
         NSLog(@"THMAudioDevice::setVolume failed: %d", (int)result);
     }
 }
+
+- (float)getVolume {
+    Float32 volume = 0.0;
+    UInt32 volumeSize = sizeof(volume);
+
+    AudioObjectPropertyAddress propertyAddress = {
+        kAudioHardwareServiceDeviceProperty_VirtualMasterVolume,
+        scope,
+        kAudioObjectPropertyElementMaster
+    };
+
+    AudioObjectGetPropertyData(self.ID, &propertyAddress, 0, NULL, &volumeSize, &volume);
+    return (float)volume;
+}
+
 @end

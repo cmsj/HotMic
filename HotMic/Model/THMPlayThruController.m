@@ -26,10 +26,12 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
         self.deviceList = [[THMAudioDeviceList alloc] init];
         self.inputDevice = nil;
         self.outputDevice = nil;
+
         _inputUID = @"__THM__DEFAULT_DEVICE__";
         _outputUID = @"__THM__DEFAULT_DEVICE__";
         _isEnabled = NO;
         self.startupDone = NO; // NOTE: This needs to come after the three ivars are set, because it triggers a setter method that needs them
+        
         __weak id weakSelf = self;
         listenerBlock = ^(UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[]) {
             [weakSelf restart];
@@ -41,6 +43,7 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
         [center addObserver:self selector:@selector(inputDeviceSelected:) name:@"THMViewInputDeviceSelected" object:nil];
         [center addObserver:self selector:@selector(outputDeviceSelected:) name:@"THMViewOutputDeviceSelected" object:nil];
         [center addObserver:self selector:@selector(enabledSelected:) name:@"THMViewEnabledSelected" object:nil];
+        [center addObserver:self selector:@selector(pushUIState) name:@"THMViewDidLoad" object:nil];
 
         self.startupDone = YES;
     }
@@ -205,7 +208,9 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
     NSDictionary *state = @{@"startupDone": [NSNumber numberWithBool:self.startupDone],
                             @"isEnabled": [NSNumber numberWithBool:self.isEnabled],
                             @"inputDeviceUID": self.inputUID,
-                            @"outputDeviceUID": self.outputUID
+                            @"outputDeviceUID": self.outputUID,
+                            @"inputVolume": [NSNumber numberWithFloat:self.inputDevice.volume],
+                            @"outputVolume": [NSNumber numberWithFloat:self.outputDevice.volume]
                             };
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
