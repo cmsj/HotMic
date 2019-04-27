@@ -44,7 +44,12 @@
 - (void)setup {
     OSStatus err = noErr;
 
-    [self setupAUHAL];
+    if (![self setupAUHAL]) {
+        // If we can't set up the AUHAL, there's no point proceeding
+        // FIXME: Emit some kind of error here
+        return;
+    }
+
     [self setupGraph];
     [self SetupBuffers];
 
@@ -250,7 +255,7 @@
 
     //Finds a component that meets the desc spec's
     comp = AudioComponentFindNext(NULL, &desc);
-    if (comp == NULL) exit (-1); // FIXME: exit() here is unhelpful, return NO and bail out in the calling method
+    if (comp == NULL) return NO;
 
     //gains access to the services provided by the component
     err = AudioComponentInstanceNew(comp, &mInputUnit);

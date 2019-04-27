@@ -14,6 +14,7 @@
 @property THMPlayThruController *playThroughController;
 
 - (void)settingsChanged:(NSNotification *)notification;
+- (void)showFatalError:(NSString *)error;
 
 @end
 

@@ -45,7 +45,7 @@
 
     audioSessionOutput = [[AVCaptureAudioPreviewOutput alloc] init];
     audioSessionOutput.outputDeviceUniqueID = outputDevice.UID;
-    audioSessionOutput.volume = 0.5; // FIXME: Is this required? Will it inherit the device's volume if we don't do this? If not, how should we solve this?
+    audioSessionOutput.volume = 1.0;
 
     session = [[AVCaptureSession alloc] init];
     [session stopRunning];
@@ -91,7 +91,8 @@
     //NSLog(@"Calculated average power for %lu channels as %f", (unsigned long)channels.count, averagePowerDB);
 
     // FIXME: This isn't technically correct, the range appears to be -212db -> 0dB
-    lastAmplitude = (averagePowerDB + 200) / 2 / 100;
+    //lastAmplitude = (averagePowerDB + 200) / 2 / 100;
+    lastAmplitude = (averagePowerDB + 212) / 212;
 }
 
 - (BOOL) stop {

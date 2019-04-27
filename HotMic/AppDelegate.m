@@ -35,8 +35,8 @@
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(settingsChanged:) name:@"THMSettingsChanged" object:nil];
+    [center addObserver:self selector:@selector(showFatalError:) name:@"THMFatalError" object: nil];
 }
-
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
      [self.playThroughController stop];
@@ -48,8 +48,7 @@
     NSData *settings = [NSKeyedArchiver archivedDataWithRootObject:self.playThroughController requiringSecureCoding:YES error:&error];
 
     if (!settings) {
-        // FIXME: Do something smarter here, at least throw an error
-        NSLog(@"Failed to archive THMPlayThruController: %@", error.localizedDescription);
+        [self showFatalError:error.localizedDescription];
         return;
     }
 
@@ -57,8 +56,17 @@
     if ([defaults synchronize]) {
         NSLog(@"Settings saved");
     } else {
-        NSLog(@"Settings failed to save");
+        [self showFatalError:@"Unable to save settings"];
     }
+}
+
+- (void)showFatalError:(NSString *)error {
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.alertStyle = NSAlertStyleCritical;
+    alert.informativeText = error;
+    [alert addButtonWithTitle:@"Quit"];
+    [alert runModal];
+    abort();
 }
 
 @end

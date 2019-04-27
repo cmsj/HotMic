@@ -86,8 +86,6 @@
     // Set the Input Devices menu
     self.inputSelector.menu = inputMenu;
 
-
-
     // Create the menu for Output Devices
     [self.outputSelector removeAllItems];
 
@@ -171,7 +169,7 @@
     NSButton *button = (NSButton *)sender;
     NSNumber *state = [NSNumber numberWithBool:(button.state == NSControlStateValueOn) ? YES : NO];
 
-    NSLog(@"Sending enabled selection event: %@", state.boolValue ? @"SELECTED" : @"NOT SELECTED");
+    //NSLog(@"Sending enabled selection event: %@", state.boolValue ? @"SELECTED" : @"NOT SELECTED");
     NSNotification *notification = [NSNotification notificationWithName:@"THMViewEnabledSelected" object:nil userInfo:@{@"state":state}];
     [center postNotification:notification];
 }

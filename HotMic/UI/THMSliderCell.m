@@ -11,7 +11,6 @@
 @implementation THMSliderCell
 
 - (void)drawBarInside:(NSRect)rect flipped:(BOOL)flipped {
-    // FIXME: Figure out how to get THMPlayThru's lastDecibels ivar here
     [super drawBarInside:rect flipped:flipped];
     THMSingleton *singleton = [THMSingleton sharedInstance];
     Float32 power = singleton.lastDecibels;
