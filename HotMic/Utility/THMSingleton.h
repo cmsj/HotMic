@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface THMSingleton : NSObject
 
 @property (nonatomic) THMBackEndBase * _Nullable playThru;
-@property (nonatomic, getter=getLastDecibels) Float32 lastDecibels;
+@property (nonatomic, getter=getLastAmplitude) Float32 lastAmplitude;
 
 + (THMSingleton *)sharedInstance;
 

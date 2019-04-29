@@ -489,7 +489,7 @@ OSStatus InputProc(void *inRefCon,
                 peakValue = absoluteValueOfSampleAmplitude;
             }
         }
-        //printf("decibel: %f\n", peakValue);
+        //printf("amplitude: %f\n", peakValue);
         This->lastAmplitude = peakValue;
     }
 

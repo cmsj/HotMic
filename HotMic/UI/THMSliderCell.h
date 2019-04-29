@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface THMSliderCell : NSSliderCell
-@property (nonatomic) Float32 decibels;
+@property (nonatomic) Float32 amplitude;
 @end
 
 NS_ASSUME_NONNULL_END

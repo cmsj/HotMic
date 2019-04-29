@@ -28,7 +28,7 @@
     return self;
 }
 
-- (Float32)getLastDecibels {
+- (Float32)getLastAmplitude {
     if (self.playThru) {
         return self.playThru->lastAmplitude;
     }

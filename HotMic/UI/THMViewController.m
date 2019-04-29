@@ -26,14 +26,14 @@
 - (void)viewDidAppear {
     __weak THMViewController *weakself = self;
     self.dbTimer = [NSTimer scheduledTimerWithTimeInterval:1/30 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        Float32 newAmplitude = self.singleton.lastDecibels;
-        //NSLog(@"%0.2f -> %0.2f", weakself.inputSliderCell.decibels, newDecibels);
-        if (newAmplitude != weakself.inputSliderCell.decibels) {
-            if (newAmplitude < weakself.inputSliderCell.decibels - 0.1) {
-                weakself.inputSliderCell.decibels -= 0.01;
+        Float32 newAmplitude = self.singleton.lastAmplitude;
+        //NSLog(@"%0.2f -> %0.2f", weakself.inputSliderCell.amplitude, newAmplitude);
+        if (newAmplitude != weakself.inputSliderCell.amplitude) {
+            if (newAmplitude < weakself.inputSliderCell.amplitude - 0.1) {
+                weakself.inputSliderCell.amplitude -= 0.01;
                 //NSLog(@"decay");
             } else {
-                weakself.inputSliderCell.decibels = newAmplitude;
+                weakself.inputSliderCell.amplitude = newAmplitude;
             }
             weakself.inputSlider.needsDisplay = YES;
         }
