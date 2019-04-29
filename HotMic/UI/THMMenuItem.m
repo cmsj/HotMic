@@ -10,11 +10,11 @@
 
 @implementation THMMenuItem
 
--(id)initWithTitle:(NSString *)title UUID:(NSString *)UUID {
+-(id)initWithTitle:(NSString *)title UID:(NSString *)UID {
     self = [super self];
     if (self) {
         self.title = title;
-        self.uuid = UUID;
+        self.uid = UID;
     }
     return self;
 }

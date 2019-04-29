@@ -71,7 +71,7 @@
 
     // Create the "System Default" menu item and add it
     THMMenuItem *defaultItem = [[THMMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@ (%@)", @"System Default", defaultInput.name]
-                                                             UUID:@"__THM__DEFAULT_DEVICE__"];
+                                                             UID:@"__THM__DEFAULT_DEVICE__"];
     [inputMenu addItem:defaultItem];
 
     // Add a separator
@@ -79,7 +79,7 @@
 
     // Add the devices
     for (THMAudioDevice *device in self.deviceList.inputDevices) {
-        THMMenuItem *menuItem = [[THMMenuItem alloc] initWithTitle:device.name UUID:device.UID];
+        THMMenuItem *menuItem = [[THMMenuItem alloc] initWithTitle:device.name UID:device.UID];
         [inputMenu addItem:menuItem];
     }
 
@@ -94,7 +94,7 @@
 
     // Create the "System Default" menu item and add it
     defaultItem = [[THMMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@ (%@)", @"System Default", defaultOutput.name]
-                                                UUID:@"__THM__DEFAULT_DEVICE__"];
+                                                UID:@"__THM__DEFAULT_DEVICE__"];
     [outputMenu addItem:defaultItem];
 
     // Add a separator
@@ -102,7 +102,7 @@
 
     // Add the devices
     for (THMAudioDevice *device in self.deviceList.outputDevices) {
-        THMMenuItem *menuItem = [[THMMenuItem alloc] initWithTitle:device.name UUID:device.UID];
+        THMMenuItem *menuItem = [[THMMenuItem alloc] initWithTitle:device.name UID:device.UID];
         [outputMenu addItem:menuItem];
     }
 
@@ -120,7 +120,7 @@
     // Set the input device
     NSString *inputUID = userInfo[@"inputDeviceUID"];
     for (NSMenuItem *item in self.inputSelector.itemArray) {
-        if ([((THMMenuItem *)item).uuid isEqualToString:inputUID]) {
+        if ([((THMMenuItem *)item).uid isEqualToString:inputUID]) {
             [self.inputSelector selectItem:item];
             self.inputDevice = [self.deviceList audioDeviceForUID:inputUID input:YES];
             break;
@@ -130,7 +130,7 @@
     // Set the output device
     NSString *outputUID = userInfo[@"outputDeviceUID"];
     for (NSMenuItem *item in self.outputSelector.itemArray) {
-        if ([((THMMenuItem *)item).uuid isEqualToString:outputUID]) {
+        if ([((THMMenuItem *)item).uid isEqualToString:outputUID]) {
             [self.outputSelector selectItem:item];
             self.outputDevice = [self.deviceList audioDeviceForUID:outputUID input:NO];
             break;
@@ -148,20 +148,20 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     THMMenuItem *item = (THMMenuItem *)((NSPopUpButton *)sender).selectedItem;
 
-    NSLog(@"Sending input selection event for: %@ (%@)", item.title, item.uuid);
-    NSNotification *notification = [NSNotification notificationWithName:@"THMViewInputDeviceSelected" object:nil userInfo:@{@"uuid":item.uuid}];
+    NSLog(@"Sending input selection event for: %@ (%@)", item.title, item.uid);
+    NSNotification *notification = [NSNotification notificationWithName:@"THMViewInputDeviceSelected" object:nil userInfo:@{@"uuid":item.uid}];
     [center postNotification:notification];
-    self.inputDevice = [self.deviceList audioDeviceForUID:item.uuid input:YES];
+    self.inputDevice = [self.deviceList audioDeviceForUID:item.uid input:YES];
 }
 
 - (IBAction)outputSelected:(id)sender {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     THMMenuItem *item = (THMMenuItem *)((NSPopUpButton *)sender).selectedItem;
 
-    NSLog(@"Sending output selection event for: %@ (%@)", item.title, item.uuid);
-    NSNotification *notification = [NSNotification notificationWithName:@"THMViewOutputDeviceSelected" object:nil userInfo:@{@"uuid":item.uuid}];
+    NSLog(@"Sending output selection event for: %@ (%@)", item.title, item.uid);
+    NSNotification *notification = [NSNotification notificationWithName:@"THMViewOutputDeviceSelected" object:nil userInfo:@{@"uuid":item.uid}];
     [center postNotification:notification];
-    self.outputDevice = [self.deviceList audioDeviceForUID:item.uuid input:NO];
+    self.outputDevice = [self.deviceList audioDeviceForUID:item.uid input:NO];
 }
 
 - (IBAction)enabledSelected:(id)sender {

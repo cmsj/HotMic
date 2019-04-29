@@ -81,13 +81,11 @@
 - (void)updateAmplitude {
     float averagePowerDB = 0.0;
 
-    NSArray *channels = audioSessionConnection.audioChannels;
-
-    for (AVCaptureAudioChannel *channel in channels) {
+    for (AVCaptureAudioChannel *channel in audioSessionConnection.audioChannels) {
         averagePowerDB += channel.averagePowerLevel;
     }
 
-    averagePowerDB = averagePowerDB / channels.count;
+    averagePowerDB = averagePowerDB / audioSessionConnection.audioChannels.count;
     //NSLog(@"Calculated average power for %lu channels as %f", (unsigned long)channels.count, averagePowerDB);
 
     lastAmplitude = (averagePowerDB + 212) / 212;
