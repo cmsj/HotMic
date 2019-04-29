@@ -23,7 +23,11 @@
         [[NSColor controlAccentColor] set];
     }
 
-    NSRect dbRect = NSMakeRect(rect.origin.x + 2, rect.origin.y + 2, (rect.size.width * power) - 4, rect.size.height - 4);
+    NSRect dbRect = NSMakeRect(rect.origin.x + 2,
+                               rect.origin.y + 2,
+                               (rect.size.width * power) - 4,
+                               rect.size.height - 4);
+
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:dbRect xRadius:0 yRadius:0];
     [path fill];
 }
