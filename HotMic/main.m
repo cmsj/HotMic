@@ -6,7 +6,7 @@
 //  Copyright © 2019 Chris Jones. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 
 int main(int argc, const char * argv[]) {
     return NSApplicationMain(argc, argv);

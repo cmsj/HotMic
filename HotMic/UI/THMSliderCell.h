@@ -6,7 +6,7 @@
 //  Copyright © 2019 Chris Jones. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import "THMSingleton.h"
 
 NS_ASSUME_NONNULL_BEGIN

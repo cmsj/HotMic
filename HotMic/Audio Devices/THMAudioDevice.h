@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import <Dispatch/Dispatch.h>
 
 #import "THMAudioDeviceSource.h"

@@ -6,7 +6,7 @@
 //  Copyright © 2019 Chris Jones. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import "THMAudioDeviceList.h"
 #import "THMMenuItem.h"
 #import "THMSliderCell.h"
