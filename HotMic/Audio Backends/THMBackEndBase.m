@@ -46,33 +46,43 @@
 
     pollForAmplitude = withAmplitudePolling;
 
-    uiDidAppearObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidAppear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    uiDidAppearObserver = [center addObserverForName:@"THMUIDidAppear"
+                                              object:nil
+                                               queue:nil
+                                          usingBlock:^(NSNotification *notification) {
         THMBackEndBase *playThru = weakself;
-        if (playThru) {
-            playThru->isUIVisible = YES;
+        if (!playThru) {
+            return;
+        }
 
-            if (playThru->pollForAmplitude) {
-                NSLog(@"Starting amplitude polling timer");
-                playThru->amplitudePollingTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
-                                                                                  repeats:YES
-                                                                                    block:^(NSTimer * _Nonnull timer) {
-                                                                                        [playThru updateAmplitude];
-                                                                                    }];
-            }
+        playThru->isUIVisible = YES;
+
+        if (playThru->pollForAmplitude) {
+            NSLog(@"Starting amplitude polling timer");
+            playThru->amplitudePollingTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
+                                                                              repeats:YES
+                                                                                block:^(NSTimer * _Nonnull timer) {
+                                                                                    [playThru updateAmplitude];
+                                                                                }];
         }
     }];
     
-    uiDidDisappearObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"THMUIDidDisappear" object:nil queue:nil usingBlock:^(NSNotification *notification) {
+    uiDidDisappearObserver = [center addObserverForName:@"THMUIDidDisappear"
+                                                 object:nil
+                                                  queue:nil
+                                             usingBlock:^(NSNotification *notification) {
         THMBackEndBase *playThru = weakself;
-        if (playThru) {
-            playThru->isUIVisible = NO;
-            playThru->lastAmplitude = 0.0;
+        if (!playThru) {
+            return;
+        }
+        playThru->isUIVisible = NO;
+        playThru->lastAmplitude = 0.0;
 
-            if (playThru->amplitudePollingTimer) {
-                NSLog(@"Stopping amplitude polling timer");
-                [playThru->amplitudePollingTimer invalidate];
-                playThru->amplitudePollingTimer = nil;
-            }
+        if (playThru->amplitudePollingTimer) {
+            NSLog(@"Stopping amplitude polling timer");
+            [playThru->amplitudePollingTimer invalidate];
+            playThru->amplitudePollingTimer = nil;
         }
     }];
 }
