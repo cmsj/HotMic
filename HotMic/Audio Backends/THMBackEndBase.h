@@ -12,8 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-// FIXME: Should we maybe have the ivars here and the method calls in a protocol? Or can we somehow mark "must-override" on the relevant methods?
 @interface THMBackEndBase : NSObject {
 @public
     THMAudioDevice *inputDevice;

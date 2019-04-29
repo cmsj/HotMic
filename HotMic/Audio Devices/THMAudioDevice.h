@@ -42,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setVolume:(float)value;
 - (float)getVolume;
 
-// FIXME: These are private getters for properties, and their support methods. Should they be declared here?
 - (BOOL)isValid;
 - (NSString *)getName;
 - (NSString *)getUID;

@@ -90,8 +90,6 @@
     averagePowerDB = averagePowerDB / channels.count;
     //NSLog(@"Calculated average power for %lu channels as %f", (unsigned long)channels.count, averagePowerDB);
 
-    // FIXME: This isn't technically correct, the range appears to be -212db -> 0dB
-    //lastAmplitude = (averagePowerDB + 200) / 2 / 100;
     lastAmplitude = (averagePowerDB + 212) / 212;
 }
 

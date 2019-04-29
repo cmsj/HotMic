@@ -46,7 +46,10 @@
 
     if (![self setupAUHAL]) {
         // If we can't set up the AUHAL, there's no point proceeding
-        // FIXME: Emit some kind of error here
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Unable to configure audio devices";
+        [alert runModal];
+        abort();
         return;
     }
 
