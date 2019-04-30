@@ -25,6 +25,9 @@ I don't currently plan to invest many more hours into this for now. SoundSource 
 
 However, if someone comes across this and knows their way around CoreAudio a bit better than I do, I would love to collaborate with you to get this working. File Issues or Pull Requests and let's talk!
 
+## Anything else I should know?
+If you install uncrustify, you can do ```git config core.hooksPath .githooks``` and get a pre-commit hook that beautifies your code for you.
+
 ## Whose shoulders did you stand on for this?
 
 A non-exhaustive list:
