@@ -23,7 +23,6 @@
     [self stop];
 }
 
-// FIXME: This mostly doesn't deallocate its things in its error branches. It should.
 - (BOOL)start {
     NSError *error;
 
@@ -33,14 +32,14 @@
 
     audioInputDevice = [AVCaptureDevice deviceWithUniqueID:inputDevice.UID];
     if (!audioInputDevice) {
+        [self cleanupAVSession];
         return NO;
     }
 
     audioSessionInput = [AVCaptureDeviceInput deviceInputWithDevice:audioInputDevice error:&error];
     if (error) {
         NSLog(@"Error initialising AVCaptureDeviceInput: %@", error);
-        audioInputDevice = nil;
-        audioSessionInput = nil;
+        [self cleanupAVSession];
         return NO;
     }
 
@@ -55,6 +54,7 @@
         [session addInputWithNoConnections:audioSessionInput];
     } else {
         NSLog(@"Unable to add %@ as an AVCaptureSession input device", inputDevice);
+        [self cleanupAVSession];
         return NO;
     }
 
@@ -62,6 +62,7 @@
         [session addOutputWithNoConnections:audioSessionOutput];
     } else {
         NSLog(@"Unable to add %@ as an AVCaptureSession output device", outputDevice);
+        [self cleanupAVSession];
         return NO;
     }
 
@@ -70,6 +71,7 @@
         [session addConnection:audioSessionConnection];
     } else {
         NSLog(@"Unable to add AVCaptureConnection between %@ and %@", inputDevice, outputDevice);
+        [self cleanupAVSession];
         return NO;
     }
 
