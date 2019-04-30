@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start;
 - (void)stop;
 - (void)restart;
+- (void)save;
 - (BOOL)validateAndRestart;
 - (BOOL)isRunning;
 - (void)startWatcher;

@@ -10,6 +10,7 @@
 
 OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses, const AudioObjectPropertyAddress addressList[], void *clientData) {
     dispatch_async(dispatch_get_main_queue(), ^{
+        // Perhaps we ought to validate if our previously used devices have changed? Right now we just dumbly refresh the list and restart.
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center postNotificationName:@"THMControllerAudioDevicesChanged" object:nil];
     });
@@ -163,7 +164,8 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
     }
 
     //self.playThru = (THMBackEndBase *)[[THMBackEndCAPlayThrough alloc] initWithInputDevice:self.inputDevice andOutputDevice:self.outputDevice];
-    self.playThru = (THMBackEndBase *)[[THMBackEndAVFCapture alloc] initWithInputDevice:self.inputDevice andOutputDevice:self.outputDevice];
+    self.playThru = (THMBackEndBase *)[[THMBackEndAVFCapture alloc] initWithInputDevice:self.inputDevice
+                                                                        andOutputDevice:self.outputDevice];
     [THMSingleton sharedInstance].playThru = self.playThru;
 
     streamListenerQueue = dispatch_queue_create("net.tenshu.HotMic.streamListenerQueue", DISPATCH_QUEUE_SERIAL);
@@ -217,6 +219,10 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
     [center postNotificationName:@"THMControllerPushUIState" object:nil userInfo:state];
 }
 
+- (void)save {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"THMSettingsChanged" object:nil];
+}
+
 #pragma mark - Audio Device watcher lifecycle
 
 - (void)startWatcher {
@@ -253,31 +259,26 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
 
 - (void)watcherCallback:(NSNotification*)notification {
     NSLog(@"Audio devices changed, re-validating selected devices and restarting play-through");
-    if (![self validateAndRestart]) {
-        // Currently selected audio devices are invalid
-        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-        // FIXME: We should indicate whether it was input or output that was invalid
-        [center postNotificationName:@"THMAudioDevicesInvalid" object:nil];
-    }
+    [self validateAndRestart];
 }
 
 - (void)inputDeviceSelected:(NSNotification *)notification {
     self.inputUID = notification.userInfo[@"uuid"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"THMSettingsChanged" object:nil];
+    [self save];
     NSLog(@"User selected input device: %@", self.inputUID);
     [self validateAndRestart];
 }
 
 - (void)outputDeviceSelected:(NSNotification *)notification {
     self.outputUID = notification.userInfo[@"uuid"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"THMSettingsChanged" object:nil];
+    [self save];
     NSLog(@"User selected output device: %@", self.outputUID);
     [self validateAndRestart];
 }
 
 - (void)enabledSelected:(NSNotification *)notification {
     self.isEnabled = ((NSNumber *)notification.userInfo[@"state"]).boolValue;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"THMSettingsChanged" object:nil];
+    [self save];
     NSLog(@"User changed enabled state: %@", self.isEnabled ? @"YES" : @"NO");
     [self validateAndRestart];
 }
