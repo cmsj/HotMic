@@ -14,7 +14,9 @@
     [super viewDidLoad];
 
     [self updateSelections:[NSNotification notificationWithName:@"THMNULL" object:nil]];
+
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+
     [center addObserver:self selector:@selector(updateSelections:) name:@"THMControllerAudioDevicesChanged" object:nil];
     [center addObserver:self selector:@selector(receiveUIState:) name:@"THMControllerPushUIState" object:nil];
 
@@ -25,13 +27,16 @@
 
 - (void)viewDidAppear {
     __weak THMViewController *weakself = self;
-    self.dbTimer = [NSTimer scheduledTimerWithTimeInterval:1/30 repeats:YES block:^(NSTimer * _Nonnull timer) {
+    self.dbTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
+                                                   repeats:YES
+                                                     block:^(NSTimer * _Nonnull timer)
+    {
         Float32 newAmplitude = self.singleton.lastAmplitude;
         //NSLog(@"%0.2f -> %0.2f", weakself.inputSliderCell.amplitude, newAmplitude);
         if (newAmplitude != weakself.inputSliderCell.amplitude) {
+            // If the amplitude has fallen, add a decay so the UI looks like these things seem to
             if (newAmplitude < weakself.inputSliderCell.amplitude - 0.1) {
                 weakself.inputSliderCell.amplitude -= 0.01;
-                //NSLog(@"decay");
             } else {
                 weakself.inputSliderCell.amplitude = newAmplitude;
             }
@@ -52,7 +57,12 @@
 #pragma mark - NSNotification callbacks
 
 - (void)setUIEnabledState:(BOOL)enabled {
-    for (id widget in @[self.enabledButton, self.inputSelector, self.outputSelector, self.inputSlider, self.outputSlider]) {
+    for (id widget in @[self.enabledButton,
+                        self.inputSelector,
+                        self.outputSelector,
+                        self.inputSlider,
+                        self.outputSlider])
+    {
         ((NSControl *)widget).enabled = enabled;
     }
 }
@@ -70,8 +80,9 @@
     NSMenu *inputMenu = [[NSMenu alloc] initWithTitle:@"Inputs"];
 
     // Create the "System Default" menu item and add it
-    THMMenuItem *defaultItem = [[THMMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@ (%@)", @"System Default", defaultInput.name]
-                                                             UID:@"__THM__DEFAULT_DEVICE__"];
+    NSString *title = [NSString stringWithFormat:@"%@ (%@)", @"System Default", defaultInput.name];
+    THMMenuItem *defaultItem = [[THMMenuItem alloc] initWithTitle:title
+                                                              UID:@"__THM__DEFAULT_DEVICE__"];
     [inputMenu addItem:defaultItem];
 
     // Add a separator
@@ -149,7 +160,9 @@
     THMMenuItem *item = (THMMenuItem *)((NSPopUpButton *)sender).selectedItem;
 
     NSLog(@"Sending input selection event for: %@ (%@)", item.title, item.uid);
-    NSNotification *notification = [NSNotification notificationWithName:@"THMViewInputDeviceSelected" object:nil userInfo:@{@"uuid":item.uid}];
+    NSNotification *notification = [NSNotification notificationWithName:@"THMViewInputDeviceSelected"
+                                                                 object:nil
+                                                               userInfo:@{@"uuid":item.uid}];
     [center postNotification:notification];
     self.inputDevice = [self.deviceList audioDeviceForUID:item.uid input:YES];
 }
@@ -170,7 +183,9 @@
     NSNumber *state = [NSNumber numberWithBool:(button.state == NSControlStateValueOn) ? YES : NO];
 
     //NSLog(@"Sending enabled selection event: %@", state.boolValue ? @"SELECTED" : @"NOT SELECTED");
-    NSNotification *notification = [NSNotification notificationWithName:@"THMViewEnabledSelected" object:nil userInfo:@{@"state":state}];
+    NSNotification *notification = [NSNotification notificationWithName:@"THMViewEnabledSelected"
+                                                                 object:nil
+                                                               userInfo:@{@"state":state}];
     [center postNotification:notification];
 }
 
