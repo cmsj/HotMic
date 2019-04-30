@@ -60,7 +60,8 @@
     }
 }
 
-- (void)showFatalError:(NSString *)error {
+-(void)showFatalError:(NSString*)error 
+{
     NSAlert *alert = [[NSAlert alloc] init];
     alert.alertStyle = NSAlertStyleCritical;
     alert.informativeText = error;
