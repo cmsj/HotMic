@@ -26,6 +26,9 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Main controller object
+ */
 @interface THMPlayThruController : NSObject <NSCoding, NSSecureCoding> {
     dispatch_queue_t streamListenerQueue;
     AudioObjectPropertyListenerBlock listenerBlock;
@@ -43,11 +46,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
 - (void)encodeWithCoder:(NSCoder *)aCoder;
+
+/**
+ Determines if play through can start or not.
+
+ @return True if playthrough is possible, otherwise False
+ */
 - (BOOL)canStart;
 - (void)start;
 - (void)stop;
 - (void)restart;
 - (void)save;
+
+/**
+ Checks if the current state is valid, and if so, restarts play through
+
+ @return True if playthrough was restarted, otherwise False
+ */
 - (BOOL)validateAndRestart;
 - (BOOL)isRunning;
 - (void)startWatcher;

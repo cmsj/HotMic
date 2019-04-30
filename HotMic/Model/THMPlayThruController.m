@@ -158,7 +158,7 @@ OSStatus audiodevicewatcher_callback(AudioDeviceID deviceID, UInt32 numAddresses
 }
 
 - (void)start {
-    if (!self.canStart) {
+    if (![self canStart]) {
         // No need to output anything here, canStart will log the reason
         return;
     }
