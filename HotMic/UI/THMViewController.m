@@ -200,17 +200,13 @@
 #pragma mark - Private setters
 
 - (void)setInputDevice:(THMAudioDevice *)inputDevice {
-    if (_inputDevice) {
-        [_inputDevice stopVolumeWatcher];
-    }
+    [_inputDevice stopVolumeWatcher];
     _inputDevice = inputDevice;
     [_inputDevice startVolumeWatcher:self.inputSlider];
 }
 
 - (void)setOutputDevice:(THMAudioDevice *)outputDevice {
-    if (_outputDevice) {
-        [_outputDevice stopVolumeWatcher];
-    }
+    [_outputDevice stopVolumeWatcher];
     _outputDevice = outputDevice;
     [_outputDevice startVolumeWatcher:self.outputSlider];
 }
