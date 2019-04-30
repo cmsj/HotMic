@@ -35,11 +35,11 @@
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(settingsChanged:) name:@"THMSettingsChanged" object:nil];
-    [center addObserver:self selector:@selector(showFatalError:) name:@"THMFatalError" object: nil];
+    [center addObserver:self selector:@selector(showFatalError:) name:@"THMFatalError" object:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-     [self.playThroughController stop];
+    [self.playThroughController stop];
 }
 
 - (void)settingsChanged:(NSNotification *)notification {
@@ -60,7 +60,7 @@
     }
 }
 
--(void)showFatalError:(NSString*)error 
+- (void)showFatalError:(NSString *)error
 {
     NSAlert *alert = [[NSAlert alloc] init];
     alert.alertStyle = NSAlertStyleCritical;
