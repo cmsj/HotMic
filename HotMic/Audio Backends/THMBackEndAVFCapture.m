@@ -23,6 +23,7 @@
     [self stop];
 }
 
+// FIXME: This mostly doesn't deallocate its things in its error branches. It should.
 - (BOOL)start {
     NSError *error;
 
@@ -117,6 +118,7 @@
         }
     }
 
+    audioSessionConnection = nil;
     audioSessionOutput = nil;
     audioSessionInput = nil;
     audioInputDevice = nil;
